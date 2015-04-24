@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3l18MJb_zC-eijaaJ2IHTMaK8dmU35cg">
+    </script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?client=245624278697-092nn6rq49fe2vj9771br8kcje7ms0g7.apps.googleusercontent.com&v=3.19"></script>-->
+
+    <script type="text/javascript">
+    var map, currPosG, currLat, currLong, directionsDisplay;
+    var directionsService = new google.maps.DirectionsService();
+
+      function initialize() {
+        var mapOptions = {
+          center: { lat: -34.397, lng: 150.644},
+          zoom: 8
+        };
+
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+
+        // initialize the direction display
+        directionsDisplay = new google.maps.DirectionsRenderer();
+        directionsDisplay.setMap(map);
+
+        // initialize the map to the current location
+        navigator.geolocation.getCurrentPosition(function(position) {
+          currLong = position.coords.longitude;
+          currLat = position.coords.latitude;
+
+          currPosG = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+          //$scope.positions.push({lat: pos.k,lng: pos.B});
+          console.log(currPosG);
+          map.setCenter(currPosG);
+          //$ionicLoading.hide();
+
+        });
+
+
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+      function calcRoute() {
+        var start = document.getElementById('start').value;
+        var end = document.getElementById('end').value;
+        var waypts = [
+          {
+            location:"40.49226229,-73.48540306",
+            stopover:false
+          }
+        ];
+        var request = {
+            origin:start,
+            destination:end,
+            provideRouteAlternatives: true,
+            travelMode: google.maps.TravelMode.WALKING,
+        };
+        directionsService.route(request, function(response, status) {
+          if (status == google.maps.DirectionsStatus.OK) {
+            console.log(response.routes); 
+             for (var i = 0, len = response.routes.length; i < len; i++) {
+                console.log(response.routes[i]);
+                new google.maps.DirectionsRenderer({
+                    map: map,
+                    directions: response,
+                    routeIndex: i
+                });
+            }
+          }
+        });
+
+        drawPolygons(poly);
+      }
+
+      function fillInCurrentLocation () {
+        document.getElementById('start').value = currLat + "," + currLong;
+      }
+
+
+      function addPolygonToMap(points) {
+
+          var polygonCoords = new Array();
+
+          // Define the LatLng coordinates for the polygon.
+
+          for (var i = 0; i<points.length; i++) {
+            polygonCoords.push(new google.maps.LatLng(points[i].lat, points[i].lng));
+            console.log(points[i].lat+","+points[i].lng);
+          }
+
+          // Construct the polygon.
+          polygon = new google.maps.Polygon({
+            paths: polygonCoords,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 3,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35
+          });
+
+          polygon.setMap(map);
+      }
+
+      function drawPolygons (polygons) {
+        for (var i=0; i<polygons.length; i++) {
+          addPolygonToMap(polygons[i]);
+        }
+      }
+
+      var poly = [[{lat:10.35895233687304,lng:-63.48345147573837},{lat:10.35895220814544,lng:-63.47431942331312},{lat:10.34996900467535,lng:-63.47432282413092},{lat:10.34996913328885,lng:-63.483454614954844},{lat:10.35895233687304,lng:-63.48345147573837}],[{lat:10.35895233687304,lng:-63.48345147573837},{lat:10.35895220814544,lng:-63.47431942331312},{lat:10.34996900467535,lng:-63.47432282413092},{lat:10.34996913328885,lng:-63.483454614954844},{lat:10.35895233687304,lng:-63.48345147573837},{lat:10.358951950690248,lng:-63.45605531847387},{lat:10.358951821962652,lng:-63.446923266059876},{lat:10.349968618834858,lng:-63.446927451681624},{lat:10.349968747448353,lng:-63.45605924249432},{lat:10.358951950690248,lng:-63.45605531847387},],];
+
+
+    </script>
+  </head>
+  <body ng-app="starter">
+
+  <ion-pane>
+  <div class="bar bar-header bar-assertive ">
+    <h1 class="title">Wildfire Navigator</h1>
+  </div>
+  <div class="bar bar-subheader bar-assertive item-input-inset">
+    <label class="item-input-wrapper">
+      <i class="icon ion-ios7-search placeholder-icon"></i>
+      <input type="search" id="start" name="start" placeholder="From" value="10.351087,-63.442723">
+    </label>
+    <button class="button button-clear" onclick="fillInCurrentLocation()">
+      My Location
+    </button>
+  </div>
+  <div class="bar bar-subheader bar-assertive item-input-inset">
+    <label class="item-input-wrapper">
+      <i class="icon ion-ios7-search placeholder-icon"></i>
+      <input type="search" id="end" name="end" placeholder="To" value="10.385798, -63.497370">
+    </label>
+    <button class="button button-clear" onclick="calcRoute();">
+      Route
+    </button>
+  </div>
+
+
+      <div id="map-canvas" style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;"></div>
+
+      <div class="margin-bottom:0px">das</div>
+    </ion-pane>
+  </body>
+</html>

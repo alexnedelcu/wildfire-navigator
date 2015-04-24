@@ -1,0 +1,113 @@
+<html>
+<head>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3l18MJb_zC-eijaaJ2IHTMaK8dmU35cg"></script>
+</head>
+<body>
+
+    <script type="text/javascript">
+    var map, currPosG, currLat, currLong, directionsDisplay;
+    var directionsService = new google.maps.DirectionsService();
+
+    var listOfMarkers = [];
+
+      function initialize() {
+        var mapOptions = {
+          center: { lat: -34.397, lng: 150.644},
+          zoom: 8
+        };
+
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+
+        // initialize the direction display
+        directionsDisplay = new google.maps.DirectionsRenderer();
+        directionsDisplay.setMap(map);
+
+        // initialize the map to the current location
+        navigator.geolocation.getCurrentPosition(function(position) {
+          currLong = position.coords.longitude;
+          currLat = position.coords.latitude;
+
+          currPosG = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+          //$scope.positions.push({lat: pos.k,lng: pos.B});
+          console.log(currPosG);
+          map.setCenter(currPosG);
+          //$ionicLoading.hide();
+
+        });
+
+        // add market when map clicked
+        google.maps.event.addListener(map, 'click', function(e) {
+          console.log(e);
+          var marker = new google.maps.Marker({
+            position: e.latLng,
+            map: map,
+          });
+
+           // display infowindow when market clicked
+          google.maps.event.addListener(marker, 'click', function() {
+             var infowindow = new google.maps.InfoWindow({
+                  content: "LAT: " + marker.position.k + "<br>LNG: " + marker.position.D
+              });
+            infowindow.open(map,marker);
+          });
+
+          // add to the list of markers
+          listOfMarkers.push({lat: marker.position.k, lng: marker.position.D});
+          console.log(JSON.stringify(listOfMarkers));
+        });
+
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+      function addPolygonToMap(points) {
+
+          var polygonCoords = new Array();
+
+          // Define the LatLng coordinates for the polygon.
+
+          for (var i = 0; i<points.length; i++) {
+            polygonCoords.push(new google.maps.LatLng(points[i].lat, points[i].lng));
+            console.log(points[i].lat+","+points[i].lng);
+          }
+
+          // Construct the polygon.
+          polygon = new google.maps.Polygon({
+            paths: polygonCoords,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 3,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35
+          });
+
+console.log(polygon);
+          console.log(polygon.setMap(map));
+      }
+
+      function drawPolygons (polygons) {
+        for (var i=0; i<polygons.length; i++) {
+          addPolygonToMap(polygons[i]);
+        }
+      }
+
+
+
+    </script>
+    
+      <div id="map-canvas" style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;"></div>
+        <script type="text/javascript">
+
+      //addPolygonToMap([{"lat":-75.25634765625,"lng":40.00447583427404},{"lat":-74.99542236328125,"lng":40.000267972646796},{"lat":-75.2069091796875,"lng":39.73465017434186}]);
+        </script>
+</body>
+</html>
