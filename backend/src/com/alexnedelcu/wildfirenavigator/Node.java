@@ -1,3 +1,4 @@
+package com.alexnedelcu.wildfirenavigator;
 import java.util.ArrayList;
 import java.util.List;
 

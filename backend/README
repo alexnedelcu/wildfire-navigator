@@ -1,0 +1,4 @@
+To receive data from NASA, please run the command:
+
+	java DataReceiver
+	

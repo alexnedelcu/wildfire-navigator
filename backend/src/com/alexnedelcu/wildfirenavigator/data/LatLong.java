@@ -1,5 +1,8 @@
+package com.alexnedelcu.wildfirenavigator.data;
 
-public class LatLong {
+import java.io.Serializable;
+
+public class LatLong implements Serializable  {
 	double latitude;
 	double longitude;
 

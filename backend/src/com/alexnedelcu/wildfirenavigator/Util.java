@@ -1,3 +1,6 @@
+package com.alexnedelcu.wildfirenavigator;
+
+import com.alexnedelcu.wildfirenavigator.data.LatLong;
 
 public class Util {
 	final static double R = 6378.1;

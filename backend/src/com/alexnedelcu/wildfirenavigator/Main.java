@@ -1,3 +1,4 @@
+package com.alexnedelcu.wildfirenavigator;
 
 public class Main {
 	public static void main(String[] args) {

@@ -1,3 +1,6 @@
+package com.alexnedelcu.wildfirenavigator;
+
+import com.alexnedelcu.wildfirenavigator.data.LatLong;
 
 public class SquareUnit {
 	double sideSize; // the size of the square in meters

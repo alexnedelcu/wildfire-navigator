@@ -1,9 +1,12 @@
+package com.alexnedelcu.wildfirenavigator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
+
+import com.alexnedelcu.wildfirenavigator.data.LatLong;
 
 
 public class Grid {
