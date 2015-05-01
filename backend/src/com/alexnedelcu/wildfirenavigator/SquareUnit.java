@@ -1,6 +1,6 @@
 package com.alexnedelcu.wildfirenavigator;
 
-import com.alexnedelcu.wildfirenavigator.data.LatLong;
+import com.alexnedelcu.wildfirenavigator.data.type.LatLong;
 
 public class SquareUnit {
 	double sideSize; // the size of the square in meters
@@ -8,7 +8,7 @@ public class SquareUnit {
 	boolean fire = false;
 	LatLong rightLatLong, leftLatLong, topLatLong, bottomLatLong;
 	
-	SquareUnit (LatLong latLongPoint, double sideSize) {
+	public SquareUnit (LatLong latLongPoint, double sideSize) {
 		this.latLongPoint=latLongPoint;
 		this.sideSize=sideSize;
 		

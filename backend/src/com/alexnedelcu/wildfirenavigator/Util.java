@@ -1,6 +1,6 @@
 package com.alexnedelcu.wildfirenavigator;
 
-import com.alexnedelcu.wildfirenavigator.data.LatLong;
+import com.alexnedelcu.wildfirenavigator.data.type.LatLong;
 
 public class Util {
 	final static double R = 6378.1;
@@ -29,4 +29,20 @@ public class Util {
 				
 	}
 
+	 public static double distance(LatLong pos1, LatLong pos2) {
+		double lat1 = pos1.getLatitude();
+		double lng1 = pos1.getLongitude();
+		double lat2 = pos2.getLatitude();
+		double lng2 = pos2.getLongitude();
+
+	    double dLat = Math.toRadians(lat2-lat1);
+	    double dLng = Math.toRadians(lng2-lng1);
+	    double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+	               Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+	               Math.sin(dLng/2) * Math.sin(dLng/2);
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	    double dist = (float) (R * c);
+
+	    return dist;
+    }
 }

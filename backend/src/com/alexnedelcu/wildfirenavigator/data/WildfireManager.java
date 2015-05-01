@@ -6,16 +6,26 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.alexnedelcu.wildfirenavigator.datatypes.Fire;
+import com.alexnedelcu.wildfirenavigator.data.type.Fire;
+import com.alexnedelcu.wildfirenavigator.data.type.LatLong;
 import com.alexnedelcu.wildfirenavigator.settings.Settings;
 import com.alexnedelcu.wildfirenavigator.settings.Storage;
 
 public class WildfireManager implements Serializable {
 	private static WildfireManager instance;
 	ArrayList<Fire> fires;
+	ArrayList<Fire> filteredFires;
 	
-	public void loadFiresFromFile(String fileName) {
-
+	public ArrayList<Fire> getFires() {
+		return filteredFires;
+	}
+	
+	public void loadMostRecentWildfiresFromFile (FireFilter filter) {
+		loadFiresFromFile(Settings.getMostRecentFiresSerializedPath(), filter);
+	}
+	
+	public void loadFiresFromFile(String fileName, FireFilter filter) {
+		
 		fires = new ArrayList<Fire> (); 
 		
 		
@@ -26,10 +36,10 @@ public class WildfireManager implements Serializable {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-         
+        
         //Set the delimiter used in file
         scanner.useDelimiter(",");
-         
+        
         //Get all tokens and store them in some data structure
         //I am just printing them
         scanner.nextLine();
@@ -47,10 +57,14 @@ public class WildfireManager implements Serializable {
 	        	LatLong potentialSurroundingFire = new LatLong(latitude, longitude);
 	        	Fire fire = new Fire();
 	        	fire.setLatlong(potentialSurroundingFire);
-	        	fires.add(fire);
+	        	
+	        	if (filter.isValid(fire)) {
+	        		fires.add(fire);
+	        		filteredFires.add(fire);
+	        	}
         	}
         }
-         
+        
         // close the input file
         scanner.close();
 	}
@@ -76,7 +90,15 @@ public class WildfireManager implements Serializable {
 		this.fires = wm.getFires();
 	}
 
-	private ArrayList<Fire> getFires() {
-		return this.fires;
+	
+	public void filter(FireFilter f) {
+		for (int i=0; i<filteredFires.size(); i++) {
+			if (!f.isValid(filteredFires.get(i)))
+				filteredFires.remove(i--);
+		}
+	}
+	
+	public void removeFilters () {
+		filteredFires = (ArrayList<Fire>) fires.clone();
 	}
 }

@@ -1,8 +1,6 @@
-package com.alexnedelcu.wildfirenavigator.datatypes;
+package com.alexnedelcu.wildfirenavigator.data.type;
 
 import java.io.Serializable;
-
-import com.alexnedelcu.wildfirenavigator.data.LatLong;
 
 public class Fire implements Serializable {
 	LatLong latlong;

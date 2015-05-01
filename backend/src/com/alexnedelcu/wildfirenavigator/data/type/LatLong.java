@@ -1,4 +1,4 @@
-package com.alexnedelcu.wildfirenavigator.data;
+package com.alexnedelcu.wildfirenavigator.data.type;
 
 import java.io.Serializable;
 
