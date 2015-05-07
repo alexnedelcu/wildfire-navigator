@@ -34,7 +34,7 @@ public class DataReceiver {
 				pass, dir,
 				localFileDir, localFilename);
 		
-		WildfireManager wm = WildfireManager.getInstance();
+		WildfireManager wm = new WildfireManager();
 		wm.loadFiresFromFile(localFileDir + File.separator + localFilename);
 		wm.save();
 	}

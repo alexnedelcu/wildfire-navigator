@@ -12,8 +12,8 @@ public class SquareUnit {
 		this.latLongPoint=latLongPoint;
 		this.sideSize=sideSize;
 		
-		rightLatLong = Util.getNewLatLong(latLongPoint.getLongitude(), latLongPoint.getLatitude(), sideSize, Math.PI*1/2);
-		leftLatLong = Util.getNewLatLong(latLongPoint.getLongitude(), latLongPoint.getLatitude(), sideSize, Math.PI*3/2);
+		rightLatLong = Util.getNewLatLong(latLongPoint.getLongitude(), latLongPoint.getLatitude(), sideSize/2, Math.PI*1/2);
+		leftLatLong = Util.getNewLatLong(latLongPoint.getLongitude(), latLongPoint.getLatitude(), sideSize/2, Math.PI*3/2);
 //		topLatLong = Util.getNewLatLong(latLongPoint.getLongitude(), latLongPoint.getLatitude(), Math.sqrt(2)*sideSize, 0*Math.PI);
 //		bottomLatLong = Util.getNewLatLong(latLongPoint.getLongitude(), latLongPoint.getLatitude(), Math.sqrt(2)*sideSize, 1*Math.PI);
 //		System.out.println("right latlong: "+rightLatLong.getLatitude() + ","+rightLatLong.getLongitude());
@@ -34,19 +34,19 @@ public class SquareUnit {
 	}
 
 	public LatLong getLTCorner () {
-		return Util.getNewLatLong(leftLatLong.getLongitude(), leftLatLong.getLatitude(),sideSize, 0*Math.PI);
+		return Util.getNewLatLong(leftLatLong.getLongitude(), leftLatLong.getLatitude(),sideSize/2, 0*Math.PI);
 	}
 
 	public LatLong getLBCorner () {
-		return Util.getNewLatLong(leftLatLong.getLongitude(), leftLatLong.getLatitude(), sideSize, 1*Math.PI);
+		return Util.getNewLatLong(leftLatLong.getLongitude(), leftLatLong.getLatitude(), sideSize/2, 1*Math.PI);
 	}
 
 	public LatLong getRBCorner () {
-		return Util.getNewLatLong(rightLatLong.getLongitude(), rightLatLong.getLatitude(), sideSize, 1*Math.PI);
+		return Util.getNewLatLong(rightLatLong.getLongitude(), rightLatLong.getLatitude(), sideSize/2, 1*Math.PI);
 	}
 
 	public LatLong getRTCorner () {
-		return Util.getNewLatLong(rightLatLong.getLongitude(), rightLatLong.getLatitude(), sideSize, 0*Math.PI);
+		return Util.getNewLatLong(rightLatLong.getLongitude(), rightLatLong.getLatitude(), sideSize/2, 0*Math.PI);
 	}
 	
 	public boolean isLatLongConfined(LatLong x) {

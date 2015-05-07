@@ -12,9 +12,14 @@ import com.alexnedelcu.wildfirenavigator.settings.Settings;
 import com.alexnedelcu.wildfirenavigator.settings.Storage;
 
 public class WildfireManager implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6639141150442639494L;
+	
 	private static WildfireManager instance;
 	ArrayList<Fire> fires;
-	ArrayList<Fire> filteredFires;
+	ArrayList<Fire> filteredFires =  new ArrayList<Fire>();
 	
 	public ArrayList<Fire> getFires() {
 		return filteredFires;
@@ -22,6 +27,17 @@ public class WildfireManager implements Serializable {
 	
 	public void loadMostRecentWildfiresFromFile (FireFilter filter) {
 		loadFiresFromFile(Settings.getMostRecentFiresSerializedPath(), filter);
+	}
+
+	public void loadFiresFromFile(String fileName) {
+		loadFiresFromFile(fileName,  new FireFilter () {
+
+			@Override
+			public boolean isValid(Fire fire) {
+				return true;
+			}
+			
+		});
 	}
 	
 	public void loadFiresFromFile(String fileName, FireFilter filter) {
@@ -72,8 +88,7 @@ public class WildfireManager implements Serializable {
 	public static WildfireManager getInstance() {
 		if (instance != null) return instance;
 		else {
-			instance = new WildfireManager();
-			return instance;
+			return WildfireManager.load();
 		}
 	}
 	
@@ -81,13 +96,14 @@ public class WildfireManager implements Serializable {
 		Storage.save(Settings.getMostRecentFiresSerializedPath(), this);
 	}
 	
-	public void load() {
+	public static WildfireManager load() {
 		instance = (WildfireManager) Storage.load(Settings.getMostRecentFiresSerializedPath());
 		initialize(instance);
+		return instance;
 	}
 	
-	public void initialize(WildfireManager wm) {
-		this.fires = wm.getFires();
+	public static void initialize(WildfireManager wm) {
+		wm.fires = wm.getFires();
 	}
 
 	
