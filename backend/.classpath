@@ -13,6 +13,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="D:/work/workspace_wildfire_nav/demoweb/jar/commons-net-3.3.jar"/>
+	<classpathentry kind="lib" path="D:/work/Repos/wildfire-navigator/backend/jar/commons-net-3.3.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
