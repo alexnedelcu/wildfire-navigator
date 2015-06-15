@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.Serializable;
 
 public class Settings implements Serializable {
-	private static String localWildfireDataDir = System.getProperty("user.dir") + File.separator + "data";
+	
+	private static String localWildfireDataDir = "D:\\work\\workspace_wildfire_nav\\demoweb" + File.separator + "data";
 	private static String localWildfireDataCSVFilename = "Global24h.csv";
 	private static String ftpNASAServerAddress = "nrt1.modaps.eosdis.nasa.gov";
 	private static String ftpNASAServerUser = "alexnedelcu";
 	private static String ftpNASAServerPass = "1d7f8d53aF!";
 	private static String ftpNASAServerDirPath = "/FIRMS/Global";
-	private static String settingsFilePath = System.getProperty("user.dir") + File.separator + "settings.ser";
+	private static String settingsFilePath = localWildfireDataDir + File.separator + "settings.ser";
 	private static String mostRecentFiresSerializedPath = localWildfireDataDir + File.separator + "listOfFires.ser";
 	
 	public static String getLocalWildfireDataDir() {

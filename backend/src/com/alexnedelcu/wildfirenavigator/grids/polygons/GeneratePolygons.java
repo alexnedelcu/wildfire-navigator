@@ -10,9 +10,6 @@ public class GeneratePolygons {
 	
 	SurroundingWFMap grid ;
 	
-	public static void  main (String [] args)  {
-		
-	}
 	
 	public GeneratePolygons (SurroundingWFMap grid) {
 		this.grid = grid;
@@ -26,26 +23,29 @@ public class GeneratePolygons {
 			json = json + generateTilePolygon(dangerousTiles.get(i)) + ",";
 		}
 		
+		// remove  the  last comma
+		if (json.length()>1) json = json.substring(0, json.length()-1);
+		
 		json = json + "]";
 		return json;
 	}
 	
 	private String generateTilePolygon(SquareUnit su) {
 		return "[{"
-					+ "lat:"+su.getLBCorner().getLatitude()+","
-					+ "lng:"+su.getLBCorner().getLongitude()
+					+ "\"lat\":"+su.getLBCorner().getLatitude()+","
+					+ "\"lng\":"+su.getLBCorner().getLongitude()
 				+ "},{"
-					+ "lat:"+su.getLTCorner().getLatitude()+","
-					+ "lng:"+su.getLTCorner().getLongitude()
+					+ "\"lat\":"+su.getLTCorner().getLatitude()+","
+					+ "\"lng\":"+su.getLTCorner().getLongitude()
 				+ "},{"
-					+ "lat:"+su.getRTCorner().getLatitude()+","
-					+ "lng:"+su.getRTCorner().getLongitude()
+					+ "\"lat\":"+su.getRTCorner().getLatitude()+","
+					+ "\"lng\":"+su.getRTCorner().getLongitude()
 				+ "},{"
-					+ "lat:"+su.getRBCorner().getLatitude()+","
-					+ "lng:"+su.getRBCorner().getLongitude()
+					+ "\"lat\":"+su.getRBCorner().getLatitude()+","
+					+ "\"lng\":"+su.getRBCorner().getLongitude()
 				+ "},{"
-					+ "lat:"+su.getLBCorner().getLatitude()+","
-					+ "lng:"+su.getLBCorner().getLongitude()
+					+ "\"lat\":"+su.getLBCorner().getLatitude()+","
+					+ "\"lng\":"+su.getLBCorner().getLongitude()
 				+ "}]";
 	}
 }
